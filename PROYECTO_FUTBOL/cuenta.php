@@ -104,6 +104,9 @@
                         <div class="box-body">
                           <form role="form" name="frmNuevoEstadio">
                               <fieldset>
+                                <div id="mensajeFrmNuevoEstadio">
+
+                                </div>
                                   <div class="form-group">
                                       <label>Nombre</label>
                                       <input class="form-control" placeholder="Nombre" name="nombreEstadio" type="text" autofocus>
@@ -146,6 +149,10 @@
                                       <label>Dirección</label>
                                       <input class="form-control" placeholder="Dirección" name="direccionEstadio" type="text" autofocus>
                                   </div>
+                                   <div class="form-group">
+                                      <label>Capacidad (Asientos)</label>
+                                      <input class="form-control" placeholder="Capacidad" name="capacidad" type="number" autofocus>
+                                  </div>
                                   
                                   <div class="form-group">
                                       <label>E-mail</label>
@@ -159,9 +166,14 @@
                                       <label>Verificar Contraseña</label>
                                       <input class="form-control" placeholder="Verificar Contraseña" name="password2" type="password" value="">
                                   </div>
+
+                                  <div class="form-group">
+                                      <label>Código de Validación</label>
+                                      <input class="form-control" placeholder="Código Validación" name="codigo" type="text" autofocus>
+                                  </div>
                                   
                                   <!-- Change this to a button or input when using this as a form -->
-                                  <a href="index.html" class="btn btn-lg btn-success btn-block">Crear Estadio</a>
+                                  <button type="submit" class="btn btn-block btn-lg btn-success" onclick="registrarEstadio(); return false;"> Crear Estadio</button>
                               </fieldset>
                           </form>
                         </div>
@@ -239,6 +251,48 @@
     ajax.send("nombre="+nombre+"&apellido="+apellido+"&direccion="+direccion+"&telefono="+telefono+"&fechanacimiento="+fechanacimiento+"&genero="+sexo+"&email="+email+"&password="+password+"&password2="+password2);
     
   }
+
+
+
+  function registrarEstadio(){
+    var nombre = document.frmNuevoEstadio.nombreEstadio.value;
+    var pais = document.frmNuevoEstadio.pais.value;
+    var localidad = document.frmNuevoEstadio.localidad.value;
+    var direccion = document.frmNuevoEstadio.direccionEstadio.value;
+    var capacidad = document.frmNuevoEstadio.capacidad.value;
+    var email = document.frmNuevoEstadio.email.value;
+    var password = document.frmNuevoEstadio.password.value;
+    var password2 = document.frmNuevoEstadio.password2.value;
+    var codigo = document.frmNuevoEstadio.codigo.value;
+     
+    
+
+    
+    ajax = objetoAjax();
+
+    ajax.open("POST", "estadio/insertar_estadio.php", true);
+    ajax.onreadystatechange=function() {
+        if (ajax.readyState==4) {
+          var mensajeRespuesta = ajax.responseText;
+
+          if(mensajeRespuesta == 'BIEN'){
+            
+            window.location.reload(true);
+          }else{
+            var htmlAlerta = '<div class="alert alert-danger alert-dismissable">' +
+                           '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                            '<i class="icon fa fa-ban"></i> ' + mensajeRespuesta +
+                            '</div>';
+            document.getElementById("mensajeFrmNuevoEstadio").innerHTML = htmlAlerta;
+             window.location='#';
+          }
+        }
+    }
+    ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    ajax.send("nombre="+nombre+"&pais="+pais+"&direccion="+direccion+"&localidad="+localidad+"&capacidad="+capacidad+"&fechanacimiento="+"&email="+email+"&password="+password+"&password2="+password2+"&codigo="+codigo);
+    
+  }
+
 
  
 

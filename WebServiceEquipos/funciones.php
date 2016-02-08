@@ -24,7 +24,7 @@ function Listar($nombre_pais){
 function ListarPaises($dato){
 	$con=conectar();
 
-	$sql='SELECT * FROM pais';		
+	$sql='SELECT * FROM pais ORDER BY nombre';		
 
 	$q = $con->prepare($sql);
 	$q->execute();

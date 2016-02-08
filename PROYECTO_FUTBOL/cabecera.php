@@ -183,6 +183,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                   }
                    if($_SESSION['IDROL']==2){
             ?>
+                <li><a href="asientos.php"><i class="fa fa-eraser"></i> <span>Asientos</span></a></li>
                 <li><a href="partido.php"><i class="fa fa-soccer-ball-o"></i> <span>Partido</span></a></li>
 
             <?php
