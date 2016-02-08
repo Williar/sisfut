@@ -3,7 +3,7 @@
   if(isset($_SESSION['USER'])==''){
 
   }else{
-    header('Location: /PROYECTO_FUTBOL/index.php');      
+    header('Location: index.php');      
   }
   
 ?>
