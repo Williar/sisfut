@@ -116,7 +116,7 @@
                                       $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
                                       $cliente = new nusoap_client($wsdl, true);   
 
-                                      $dato = 'comosea';
+                                      $dato = "xxx";
 
                                       $result = $cliente->call("ListarPaises", array("dato" => $dato));
 
