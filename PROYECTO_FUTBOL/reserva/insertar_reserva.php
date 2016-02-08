@@ -84,9 +84,30 @@ for ($i = 0; $i < count($listaSecciones); $i++) {
 
 if($crearReserva){
 
-	$sql = 'INSERT INTO reserva (idpersona, idpartido, precio , estado) VALUES (:idpersona, :idpartido, :precio, :estado)';
+	require_once('lib/nusoap.php');
+				header('Content-type: text/html');
+
+				//$client = new nusoap_client('http://localhost/webservice/server_registro.php');
+				$urlWebService = 'http://localhost/sisfut/WebServiceEquipos/servereserva.php';
+				$urlWSDL = $urlWebService . '?wsdl';
+
+				// Creo el objeto soapclient
+				$client = new nusoap_client($urlWSDL, 'wsdl');
+
+
+				//$response=array();
+				$response = $client->call('consulta_reserva',array('' => ''));
+				$response1=json_decode($response,true);
+				//echo "<pre>";
+				$codreserva = $response1['codreserva'];
+				//print_r(json_decode($response));
+
+				//print_r($response1['codreserva']);
+				//echo "</pre>";
+
+	$sql = 'INSERT INTO reserva (idpersona, idpartido, precio , estado, codreserva) VALUES (:idpersona, :idpartido, :precio, :estado, :codreserva)';
 	$q = $con->prepare($sql);
-	$q->execute(array(':idpersona'=>$idpersona, ':idpartido'=>$idpartido, ':precio'=>$precio, ':estado'=>$estado));
+	$q->execute(array(':idpersona'=>$idpersona, ':idpartido'=>$idpartido, ':precio'=>$precio, ':estado'=>$estado, ':codreserva'=>$codreserva));
 
 	$sql = 'SELECT * FROM reserva ORDER BY idreserva DESC LIMIT 1';
 
@@ -130,32 +151,7 @@ if($crearReserva){
 			    $qAsientos->execute();
 			    $rowsAsientos = $qAsientos->fetchAll(\PDO::FETCH_OBJ);
 
-			    	
-			   	require_once('lib/nusoap.php');
-				header('Content-type: text/html');
-
-				//$client = new nusoap_client('http://localhost/webservice/server_registro.php');
-				$urlWebService = 'http://localhost/sisfut/WebServiceEquipos/servereserva.php';
-				$urlWSDL = $urlWebService . '?wsdl';
-
-				// Creo el objeto soapclient
-				$client = new nusoap_client($urlWSDL, 'wsdl');
-
-
-				//$response=array();
-				$response = $client->call('consulta_reserva',array('' => ''));
-				$response1=json_decode($response,true);
-				//echo "<pre>";
-				
-				//print_r(json_decode($response));
-
-
-				//print_r($response1['codreserva']);
-
-
-
-
-
+			    
 			  	$temp = 0;
 			    foreach($rowsAsientos as $rowAsientos){	  
 
@@ -163,7 +159,7 @@ if($crearReserva){
 			    		$idasiento = $rowAsientos->idasiento;
 					    $sql = 'INSERT INTO detalle_reserva (idreserva, idasiento, codreserva) VALUES (:idreserva, :idasiento, :codreserva)';
 						$q3 = $con->prepare($sql);
-						$q3->execute(array(':idreserva'=>$idreserva, ':idasiento'=>$idasiento, ':codreserva'=>$response1['codreserva']));
+						$q3->execute(array(':idreserva'=>$idreserva, ':idasiento'=>$idasiento));
 			    	}
 			    	echo 'PEDO'.$temp;
 

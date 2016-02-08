@@ -17,7 +17,7 @@
         $resul=$sql->fetchAll(PDO::FETCH_ASSOC);                
         foreach ($resul as $row){            
             echo '<img src="'.$row["imagen_nomequi"].'" width="153" heigth="176"><br>';
-            echo $row["nombre"]."<br>";
+            echo $row["nombre_equipo"]."<br>";
             echo $row["estadio"]."<br>";
             echo $row["entrenador"]."<br>";
             echo $row["ubicacion"]."<br>";            
