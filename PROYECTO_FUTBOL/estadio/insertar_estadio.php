@@ -106,6 +106,7 @@ if($nombre!='' && $localidad!='' && $direccion!='' && $capacidad!='' && $codigo!
 				$_SESSION['USER'] = $email;
 				$_SESSION['IDUSER'] = $idusuario;
 				$_SESSION['IDROL'] = 2;
+				$_SESSION['IDESTADIO'] = $idestadio;
 
 				
 
