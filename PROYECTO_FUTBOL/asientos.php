@@ -95,6 +95,34 @@
 			document.frmAsientos.asientoVIP.value=null;
 			document.frmAsientos.asientoVIP.disabled = true;
 		}
+
+		if(document.frmAsientos.checkPalco.checked){
+			document.frmAsientos.asientoPalco.disabled = false;
+		}else{
+			document.frmAsientos.asientoPalco.value=null;
+			document.frmAsientos.asientoPalco.disabled = true;
+		}
+
+		if(document.frmAsientos.checkPreferencial.checked){
+			document.frmAsientos.asientoPreferencial.disabled = false;
+		}else{
+			document.frmAsientos.asientoPreferencial.value=null;
+			document.frmAsientos.asientoPreferencial.disabled = true;
+		}
+
+		if(document.frmAsientos.checkTribuna.checked){
+			document.frmAsientos.asientoTribuna.disabled = false;
+		}else{
+			document.frmAsientos.asientoTribuna.value=null;
+			document.frmAsientos.asientoTribuna.disabled = true;
+		}
+
+		if(document.frmAsientos.checkGeneral.checked){
+			document.frmAsientos.asientoGeneral.disabled = false;
+		}else{
+			document.frmAsientos.asientoGeneral.value=null;
+			document.frmAsientos.asientoGeneral.disabled = true;
+		}
 	}
 
 </script>
