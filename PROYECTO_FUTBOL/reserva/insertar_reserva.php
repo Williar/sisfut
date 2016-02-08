@@ -11,15 +11,15 @@ $listaCantidad = explode(',',$listaCantidad);
 
 
 $precio = 0;
-$estado = 'PENDIENTE';
-
-
+$estado = 'PENDIENTE';	
 require('../conexion.php');
+
 
 $con = Conectar();
 
 
-$crearReserva = False;
+$crearReserva = False;	
+
 
 
 for ($i = 0; $i < count($listaSecciones); $i++) {
@@ -81,32 +81,34 @@ for ($i = 0; $i < count($listaSecciones); $i++) {
 	}
 
 }
-
-if($crearReserva){
-
+	
+if($crearReserva){					
+	
 	require_once('lib/nusoap.php');
-				header('Content-type: text/html');
+	header('Content-type: text/html');
 
-				//$client = new nusoap_client('http://localhost/webservice/server_registro.php');
-				$urlWebService = 'http://localhost/sisfut/WebServiceEquipos/servereserva.php';
-				$urlWSDL = $urlWebService . '?wsdl';
+	//$client = new nusoap_client('http://localhost/webservice/server_registro.php');
+	$urlWebService = 'http://127.0.0.1/sisfut/WebServiceReserva/servereserva.php';
+	$urlWSDL = $urlWebService . '?wsdl';
 
-				// Creo el objeto soapclient
-				$client = new nusoap_client($urlWSDL, 'wsdl');
+	// Creo el objeto soapclient
+	$client = new nusoap_client($urlWSDL, 'wsdl');
 
 
-				//$response=array();
-				$response = $client->call('consulta_reserva',array('' => ''));
-				$response1=json_decode($response,true);
-				//echo "<pre>";
-				$codreserva = $response1['codreserva'];
-				//print_r(json_decode($response));
+	//$response=array();
+	$response = $client->call('consulta_reserva',array('' => ''));
+	$response1=json_decode($response,true);
+	//echo "<pre>";
 
-				//print_r($response1['codreserva']);
-				//echo "</pre>";
+	//print_r(json_decode($response));
+
+	$codreserva=$response1['codreserva'];
+		
+	
 
 	$sql = 'INSERT INTO reserva (idpersona, idpartido, precio , estado, codreserva) VALUES (:idpersona, :idpartido, :precio, :estado, :codreserva)';
 	$q = $con->prepare($sql);
+		
 	$q->execute(array(':idpersona'=>$idpersona, ':idpartido'=>$idpartido, ':precio'=>$precio, ':estado'=>$estado, ':codreserva'=>$codreserva));
 
 	$sql = 'SELECT * FROM reserva ORDER BY idreserva DESC LIMIT 1';
@@ -157,7 +159,7 @@ if($crearReserva){
 
 			    	if($temp<$cantidad){
 			    		$idasiento = $rowAsientos->idasiento;
-					    $sql = 'INSERT INTO detalle_reserva (idreserva, idasiento, codreserva) VALUES (:idreserva, :idasiento, :codreserva)';
+					    $sql = 'INSERT INTO detalle_reserva (idreserva, idasiento) VALUES (:idreserva, :idasiento)';
 						$q3 = $con->prepare($sql);
 						$q3->execute(array(':idreserva'=>$idreserva, ':idasiento'=>$idasiento));
 			    	}
