@@ -1,4 +1,6 @@
 <?php
+  date_default_timezone_set("America/Bogota");
+
   session_start();
 ?>
 
@@ -36,6 +38,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
 
     <!-- Bootstrap time Picker -->
     <link rel="stylesheet" href="plugins/timepicker/bootstrap-timepicker.min.css">
+
+    <!-- iCheck for checkboxes and radio inputs -->
+    <link rel="stylesheet" href="plugins/iCheck/all.css">
+    <!-- Bootstrap Color Picker -->
+    <link rel="stylesheet" href="plugins/colorpicker/bootstrap-colorpicker.min.css">
+
 
     <!-- daterange picker -->
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">

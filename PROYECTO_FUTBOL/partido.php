@@ -55,9 +55,16 @@
                                   </div>
                                   </div>
                                   <div class="col-md-4">
+                                    <div class="bootstrap-timepicker">
                                     <div class="form-group">
-                                      <label>Hora</label>
-                                      <input class="form-control" placeholder="Hora" name="hora" type="text" autofocus>
+                                      <label>Hora:</label>
+                                      <div class="input-group">
+                                        <input type="text" class="form-control timepicker">
+                                        <div class="input-group-addon">
+                                          <i class="fa fa-clock-o"></i>
+                                        </div>
+                                      </div><!-- /.input group -->
+                                    </div>
                                     </div>
                                   </div>
                                   <div class="col-md-4">
