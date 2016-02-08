@@ -8,7 +8,7 @@ $server->wsdl->schemaTargetNamespace = 'urn:reserva';
 $server->register('consulta_reserva', array('codreserva' => 'xsd:string'), array('return' => 'xsd:string'));
 
  
- function consulta_reserva($cosa)
+ function consulta_reserva($codreserva)
  {
   	
    	/* if(!$codreserva){
