@@ -2,7 +2,7 @@
 function Conectar(){
   $conn = null;
   $host = '127.0.0.1';
-  $db = 'reservas';
+  $db = 'reserva';
   $user = 'root';
   $pwd = '';
   try {
