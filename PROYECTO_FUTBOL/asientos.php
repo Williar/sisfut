@@ -37,33 +37,33 @@
                             <label>Asientos</label>
                             <div class="input-group">
 		                       <span class="input-group-addon">
-		                         VIP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkVIP">
+		                         VIP &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkVIP" onchange="cambiarEstado();">
 		                       </span>
-		                       <input type="number" class="form-control" placeholder="# Asientos" disabled>
+		                       <input type="number" class="form-control" placeholder="# Asientos" disabled name="asientoVIP">
 		                    </div>
 		                    <div class="input-group">
 		                       <span class="input-group-addon">
 		                         Palco&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkPalco">
 		                       </span>
-		                       <input type="number" class="form-control" placeholder="# Asientos" disabled>
+		                       <input type="number" class="form-control" placeholder="# Asientos" disabled name="asientoPalco">
 		                    </div>
 		                    <div class="input-group">
 		                       <span class="input-group-addon">
 		                         Preferencial &nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkPreferencial">
 		                       </span>
-		                       <input type="number" class="form-control" placeholder="# Asientos" disabled>
+		                       <input type="number" class="form-control" placeholder="# Asientos" disabled name="asientoPreferencial">
 		                    </div>
 		                    <div class="input-group">
 		                       <span class="input-group-addon">
 		                         Tribuna &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkTribuna">
 		                       </span>
-		                       <input type="number" class="form-control" placeholder="# Asientos" disabled>
+		                       <input type="number" class="form-control" placeholder="# Asientos" disabled name="asientoTribuna">
 		                    </div>
 		                    <div class="input-group">
 		                       <span class="input-group-addon" >
 		                         General &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="checkbox" name="checkGeneral">
 		                       </span>
-		                       <input type="number" class="form-control" placeholder="# Asientos" disabled>
+		                       <input type="number" class="form-control" placeholder="# Asientos" disabled name="asientoGeneral">
 		                    </div>
 		                    <br>
 
@@ -81,6 +81,23 @@
 	    </div>
     </div>
 </div>
+
+
+
+<script type="text/javascript">
+
+
+	function cambiarEstado(){
+		
+		if(document.frmAsientos.checkVIP.checked){
+			document.frmAsientos.asientoVIP.disabled = false;
+		}else{
+			document.frmAsientos.asientoVIP.value=null;
+			document.frmAsientos.asientoVIP.disabled = true;
+		}
+	}
+
+</script>
 
 
 
