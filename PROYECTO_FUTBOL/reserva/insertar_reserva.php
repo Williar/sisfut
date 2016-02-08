@@ -86,7 +86,7 @@ if($crearReserva){
 
 	$sql = 'INSERT INTO reserva (idpersona, idpartido, precio , estado) VALUES (:idpersona, :idpartido, :precio, :estado)';
 	$q = $con->prepare($sql);
-	$q->execute(array(':idpersona'=>$idpersona, ':idpartido'=>$idpartido, ':precio'=>$precio, ':estado'=>$estado,':asientos_selec'=>$asientos_selec));
+	$q->execute(array(':idpersona'=>$idpersona, ':idpartido'=>$idpartido, ':precio'=>$precio, ':estado'=>$estado));
 
 	$sql = 'SELECT * FROM reserva ORDER BY idreserva DESC LIMIT 1';
 
@@ -131,7 +131,26 @@ if($crearReserva){
 			    $rowsAsientos = $qAsientos->fetchAll(\PDO::FETCH_OBJ);
 
 			    	
-			   
+			   	require_once('lib/nusoap.php');
+				header('Content-type: text/html');
+
+				//$client = new nusoap_client('http://localhost/webservice/server_registro.php');
+				$urlWebService = 'http://localhost/sisfut/WebServiceEquipos/servereserva.php';
+				$urlWSDL = $urlWebService . '?wsdl';
+
+				// Creo el objeto soapclient
+				$client = new nusoap_client($urlWSDL, 'wsdl');
+
+
+				//$response=array();
+				$response = $client->call('consulta_reserva',array('' => ''));
+				$response1=json_decode($response,true);
+				echo "<pre>";
+
+				//print_r(json_decode($response));
+
+
+				//print_r($response1['codreserva']);
 
 
 
@@ -142,9 +161,9 @@ if($crearReserva){
 
 			    	if($temp<$cantidad){
 			    		$idasiento = $rowAsientos->idasiento;
-					    $sql = 'INSERT INTO detalle_reserva (idreserva, idasiento) VALUES (:idreserva, :idasiento)';
+					    $sql = 'INSERT INTO detalle_reserva (idreserva, idasiento, codreserva) VALUES (:idreserva, :idasiento, :codreserva)';
 						$q3 = $con->prepare($sql);
-						$q3->execute(array(':idreserva'=>$idreserva, ':idasiento'=>$idasiento));
+						$q3->execute(array(':idreserva'=>$idreserva, ':idasiento'=>$idasiento, ':codreserva'=>$response1['codreserva']));
 			    	}
 			    	echo 'PEDO'.$temp;
 
