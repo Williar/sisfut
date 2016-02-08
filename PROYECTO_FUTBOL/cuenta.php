@@ -102,16 +102,42 @@
                           </div>
                         </div>
                         <div class="box-body">
-                          <form role="form">
+                          <form role="form" name="frmNuevoEstadio">
                               <fieldset>
                                   <div class="form-group">
                                       <label>Nombre</label>
                                       <input class="form-control" placeholder="Nombre" name="nombreEstadio" type="text" autofocus>
                                   </div>
                                   <div class="form-group">
-                                      <label>País</label>
-                                      <input class="form-control" placeholder="País" name="pais" type="text" autofocus>
-                                  </div>
+                                  <label>País</label>
+                                  <select class="form-control select2"  name="pais" id="pais" style="width: 100%;">
+                                   <?php
+                                      require_once ('lib/nusoap.php');
+                                      $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
+                                      $cliente = new nusoap_client($wsdl, true);   
+
+                                      $dato = 'comosea';
+
+                                      $result = $cliente->call("ListarPaises", array("dato" => $dato));
+
+                                      if ($cliente->fault) {
+                                          echo "<h2>Fault</h2><pre>";
+                                          print_r($result);
+                                          echo "</pre>";
+                                      }
+                                      else {
+                                          $error = $cliente->getError();
+                                          if ($error) {
+                                              echo "<h2>Error</h2><pre>" . $error . "</pre>";
+                                          }
+                                          else {
+                                              echo $result;
+                                          }
+                                      }
+
+                                    ?>
+                                  </select>
+                                </div>
                                   <div class="form-group">
                                       <label>Localidad</label>
                                       <input class="form-control" placeholder="Localidad" name="localidad" type="text" autofocus>
