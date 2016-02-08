@@ -4,7 +4,7 @@ require_once('lib/nusoap.php');
 header('Content-type: text/html');
 
 //$client = new nusoap_client('http://localhost/webservice/server_registro.php');
-$urlWebService = 'http://localhost/PROYECTO_FUTBOL/WebServiceEquipos/servereserva.php';
+$urlWebService = 'http://localhost/sisfut/WebServiceEquipos/servereserva.php';
 $urlWSDL = $urlWebService . '?wsdl';
 
 // Creo el objeto soapclient

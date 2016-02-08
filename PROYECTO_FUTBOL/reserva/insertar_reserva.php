@@ -145,8 +145,8 @@ if($crearReserva){
 				//$response=array();
 				$response = $client->call('consulta_reserva',array('' => ''));
 				$response1=json_decode($response,true);
-				echo "<pre>";
-
+				//echo "<pre>";
+				
 				//print_r(json_decode($response));
 
 
