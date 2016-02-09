@@ -49,9 +49,6 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <link rel="stylesheet" href="plugins/daterangepicker/daterangepicker-bs3.css">
 
 
-     <!-- jvectormap -->
-    <link rel="stylesheet" href="plugins/jvectormap/jquery-jvectormap-1.2.2.css">
-
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
     <!--[if lt IE 9]>
@@ -188,6 +185,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                    if($_SESSION['IDROL']==2){
             ?>
                 <li><a href="asientos.php"><i class="fa fa-eraser"></i> <span>Asientos</span></a></li>
+                <li><a href="politica.php"><i class="fa fa-legal"></i> <span>Política</span></a></li>
                 <li><a href="partido.php"><i class="fa fa-soccer-ball-o"></i> <span>Partido</span></a></li>
 
             <?php

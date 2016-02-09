@@ -1,6 +1,6 @@
 <?php
   require_once ('../lib/nusoap.php');
-  $wsdl='http://localhost/webserviceequipos/servicio.php?wsdl';
+  $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
   $cliente = new nusoap_client($wsdl, true);   
 
   $dato = $_POST['clubes'];

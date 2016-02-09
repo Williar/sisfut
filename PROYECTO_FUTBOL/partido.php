@@ -105,7 +105,7 @@
                                   <select class="form-control select2" name="equipolocal" id="equipolocal" style="width: 100%;" onchange="cambiarImagenEquipoLocal();">
                                     <?php
                                       require_once ('lib/nusoap.php');
-                                      $wsdl='http://localhost/webserviceequipos/servicio.php?wsdl';
+                                      $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
                                       $cliente = new nusoap_client($wsdl, true);   
 
                                       $result = $cliente->call("ListarClubes", array("dato" => "1s"));
@@ -136,7 +136,7 @@
                                   <select class="form-control select2"  name="equipovisita" id="equipovisita" style="width: 100%;" onchange="cambiarImagenEquipoVisita();" >
                                    <?php
                                       require_once ('lib/nusoap.php');
-                                      $wsdl='http://localhost/webserviceequipos/servicio.php?wsdl';
+                                      $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
                                       $cliente = new nusoap_client($wsdl, true);   
 
                                       $result = $cliente->call("ListarClubes", array("dato" => "1s"));

@@ -49,7 +49,7 @@ function ListarPaises($dato){
 function ListarClubes($dato){
 	$con=conectar();
 
-	$sql='SELECT * FROM equipo E, pais P WHERE E.idpais=P.idpais';		
+	$sql='SELECT * FROM equipo E, pais P WHERE E.idpais=P.idpais ORDER BY E.nombre_equipo';		
 
 	$q = $con->prepare($sql);
 	$q->execute();
