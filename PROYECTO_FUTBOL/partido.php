@@ -104,7 +104,7 @@
                                       <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                       </div>
-                                      <input name="fecha" type="date" class="form-control" required>
+                                      <input name="fecha" type="date" class="form-control">
                                     </div>
                                   </div>
                                   </div>
@@ -125,9 +125,9 @@
                                    	<div class="form-group">
                                       <label>Tipo de Partido</label>
                                       <select class="form-control select2"  name="tipopartido" style="width: 100%;" >
-                                        <option>Amistoso</option>
-                                        <option>Campeonato Nacional</option>
-                                        <option>Campeonato Internacional</option>
+                                        <option value="1">Amistoso</option>
+                                        <option value="2">Campeonato Nacional</option>
+                                        <option value="3">Campeonato Internacional</option>
                                       </select>
                                     </div>
                                    </div>
@@ -266,7 +266,8 @@
                           ?>
 
 			                    <br>
-                          <button type="submit" class="btn btn-block btn-lg btn-success" onclick="registrarPartido(); return false;"><i class="fa fa-futbol-o"></i> Crear Partido</button>
+                          
+                          <button type="submit" class="btn btn-block btn-lg btn-success" onclick="registrarpartido(); return false;"><i class="fa fa-futbol-o"></i> Crear Partido</button>
                           </fieldset>
                         </form>
                       </div>
@@ -398,7 +399,7 @@
           if(mensajeRespuesta == 'BIEN'){
             window.location.reload(true);
           }else{
-            var htmlAlerta = '<img src="http://localhost/WebServiceEquipos/'+mensajeRespuesta+'" width="100%">';
+            var htmlAlerta = '<img src="http://localhost/sisfut/WebServiceEquipos/'+mensajeRespuesta+'" width="100%">';
             document.getElementById("imagenequipolocal").innerHTML = htmlAlerta;
           }
         }
@@ -432,7 +433,7 @@
           if(mensajeRespuesta == 'BIEN'){
             window.location.reload(true);
           }else{
-            var htmlAlerta = '<img src="http://localhost/WebServiceEquipos/'+mensajeRespuesta+'" width="100%">';
+            var htmlAlerta = '<img src="http://localhost/sisfut/WebServiceEquipos/'+mensajeRespuesta+'" width="100%">';
             document.getElementById("imagenequipovisita").innerHTML = htmlAlerta;
           }
         }
@@ -481,7 +482,7 @@
   }
 
 
-  function registrarPartido(){
+  function registrarpartido(){
     var fecha = document.frmNuevoPartido.fecha.value;
     var hora = document.frmNuevoPartido.hora.value;
     var tipo = document.frmNuevoPartido.tipopartido.value;
@@ -490,44 +491,68 @@
     var equipolocal = document.frmNuevoPartido.equipolocal.value;
     var equipovisita = document.frmNuevoPartido.equipovisita.value;
 
-    var precioVIP = document.frmNuevoPartido.precioVIP.value;
-    var precioPalco = document.frmNuevoPartido.precioPalco.value;
-    var precioPreferencial = document.frmNuevoPartido.precioPreferencial.value;
-    var precioTribuna = document.frmNuevoPartido.precioTribuna.value;
-    var precioGeneral = document.frmNuevoPartido.precioGeneral.value;
+    if(document.frmNuevoPartido.precioVIP){
+      var precioVIP = document.frmNuevoPartido.precioVIP.value;
+    }
+    if(document.frmNuevoPartido.precioPalco){
+      var precioPalco = document.frmNuevoPartido.precioPalco.value;
+    }
+    if(document.frmNuevoPartido.precioPreferencial){
+      var precioPreferencial = document.frmNuevoPartido.precioPreferencial.value;
+    }
+    if(document.frmNuevoPartido.precioTribuna){
+      var precioTribuna = document.frmNuevoPartido.precioTribuna.value;
+    }
+    if(document.frmNuevoPartido.precioGeneral){
+      var precioGeneral = document.frmNuevoPartido.precioGeneral.value;
+    }
 
 
-    if(fecha==''||hora==''||arbitro=''){
-        document.getElementById("mensajeFrmNuevoPartido").innerHTML = 'Todos los campos son obligatorios';
+    if(fecha==''||hora==''||arbitro==''||precioVIP==''||precioPalco==''||precioPreferencial==''||precioTribuna==''||precioGeneral==''){
+         var mensajeRespuesta = 'Todos los campos son obligatorios.';
+         var htmlAlerta = '<div class="alert alert-danger alert-dismissable">' +
+                                 '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                  '<i class="icon fa fa-ban"></i> ' + mensajeRespuesta +
+                                  '</div>';
+              document.getElementById("mensajeFrmNuevoPartido").innerHTML = htmlAlerta;
+         window.location='#';
     }else{
 
+      ajax = objetoAjax();
+
+
+      ajax.open("POST", "partido/ingresar_partido.php", true);
+      
+     
+      ajax.onreadystatechange=function() {
+          if (ajax.readyState==4) {
+            var mensajeRespuesta = ajax.responseText;
+
+            if(mensajeRespuesta=='BIEN'){
+              window.location.reload(true);
+            }else{
+               var htmlAlerta = '<div class="alert alert-danger alert-dismissable">' +
+                                 '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
+                                  '<i class="icon fa fa-ban"></i> ' + mensajeRespuesta +
+                                  '</div>';
+              document.getElementById("mensajeFrmNuevoPartido").innerHTML = htmlAlerta;
+              window.location='#';
+            
+            }
+       
+            
+          }
+      }
+      ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+      ajax.send("fecha="+fecha+"&hora="+hora+"&tipo="+tipo+"&seccion="+seccion+"&arbitro="+arbitro+
+        "&equipolocal="+equipolocal+"&equipovisita="+equipovisita+"&precioVIP="+precioVIP+"&precioPalco="+precioPalco
+        +"&precioPreferencial="+precioPreferencial+"&precioTribuna="+precioTribuna+"&precioGeneral="+precioGeneral);
+      
+
     }
     
-    /*
-    ajax = objetoAjax();
-
-
-    ajax.open("POST", "partido/ingresar_partido.php", true);
     
    
-    ajax.onreadystatechange=function() {
-        if (ajax.readyState==4) {
-          var mensajeRespuesta = ajax.responseText;
-
-          if(mensajeRespuesta=='BIEN'){
-            window.location.reload(true);
-          }else{
-            document.getElementById("mensajeFrmNuevoPartido").innerHTML = mensajeRespuesta;
-          
-          }
-     
-          
-        }
-    }
-    ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-    ajax.send("fecha="+fecha+"&hora="+hora+"&tipo="+tipo+"&seccion="+seccion+
-      "&arbitro="+arbitro+"&equipolocal="+equipolocal+"&equipovisita="+equipovisita);
-    */
     
   }
   
