@@ -254,48 +254,67 @@
                   <div class="tab-pane" id="tab_2">
                       <div class="box box-success">
                         <div class="box-header with-border">
-                          <h3 class="box-title"><i>Nuevo Estadio</i></h3>
+                          <h3 class="box-title"><i>Mis Partidos</i></h3>
                           <div class="box-tools pull-right">
                             <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                           </div>
                         </div>
                         <div class="box-body">
-                          <form role="form">
-                              <fieldset>
-                                  <div class="form-group">
-                                      <label>Nombre</label>
-                                      <input class="form-control" placeholder="Nombre" name="nombreEstadio" type="text" autofocus>
-                                  </div>
-                                  <div class="form-group">
-                                      <label>País</label>
-                                      <input class="form-control" placeholder="País" name="pais" type="text" autofocus>
-                                  </div>
-                                  <div class="form-group">
-                                      <label>Localidad</label>
-                                      <input class="form-control" placeholder="Localidad" name="localidad" type="text" autofocus>
-                                  </div>
-                                  <div class="form-group">
-                                      <label>Dirección</label>
-                                      <input class="form-control" placeholder="Dirección" name="direccionEstadio" type="text" autofocus>
-                                  </div>
+                          <div class="box">
+                            <div class="box-header">
+                              <h3 class="box-title"><b>Listado de Partidos</b></h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+                              <table id="example1" class="table table-bordered table-striped">
+                                <thead>
+                                  <tr>
+                                    <th>ID</th>
+                                    <th>Equipo Local</th>
+                                    <th>Equivo Visita</th>
+                                    <th>Fecha</th>
+                                    <th>Hora</th>
+                                    <th>Estado</th>
+                                    <th>Acciones</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  <?php
+
+                                    
+                                    $sql = 'SELECT * FROM partido WHERE idestadio='.$_SESSION['IDESTADIO'].'';
+                                    $q2 = $con->prepare($sql);
+                                    $q2->execute();
+
+                                    $rows = $q2->fetchAll(\PDO::FETCH_OBJ); 
+
+
+                                    foreach($rows as $row){
+                                     
+                                    
+                                    
+
+                                  ?>
+                                  <tr>
+                                    <td><?php echo $row->idpartido ?></td>
+                                    <td><?php echo $row->equipolocal ?></td>
+                                    <td><?php echo $row->equipovisita ?></td>
+                                    <td><?php echo $row->fecha ?></td>
+                                    <td><?php echo $row->hora ?></td>
+                                    <td><?php echo $row->estado ?></td>
+                                    <td> 
+                                     
+                                    </td>
+                                  </tr>
+                                  <?php
+                                    }
+                                  ?>
                                   
-                                  <div class="form-group">
-                                      <label>E-mail</label>
-                                      <input class="form-control" placeholder="E-mail" name="email" type="email" autofocus>
-                                  </div>
-                                  <div class="form-group">
-                                      <label>Contraseña</label>
-                                      <input class="form-control" placeholder="Contraseña" name="password" type="password" value="">
-                                  </div>
-                                  <div class="form-group">
-                                      <label>Verificar Contraseña</label>
-                                      <input class="form-control" placeholder="Verificar Contraseña" name="password2" type="password" value="">
-                                  </div>
-                                  
-                                  <!-- Change this to a button or input when using this as a form -->
-                                  <a href="index.html" class="btn btn-lg btn-success btn-block">Crear Estadio</a>
-                              </fieldset>
-                          </form>
+                                </tbody>
+                                
+                              </table>
+                            </div><!-- /.box-body -->
+                          </div><!-- /.box -->
                         </div>
                       </div>
                   </div>
