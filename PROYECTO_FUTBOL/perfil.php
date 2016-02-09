@@ -163,7 +163,7 @@
                   <div class="box-body">
                     <form role="form" name="frmDatosPersonalesEstadio">
                         <fieldset>
-                            <div id="mensajeFrmDatosPersonales">
+                            <div id="mensajeFrmDatosPersonalesEstadio">
 
                             </div>
                             <div class="form-group">
@@ -355,7 +355,7 @@
         }
     }
     ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
-    ajax.send("nombre="+nombre+"&apellido="+apellido+"&direccion="+direccion+"&telefono="+telefono+"&fechanacimiento="+fechanacimiento+"&genero="+sexo);
+    ajax.send("nombre="+nombre+"&localidad="+localidad+"&direccion="+direccion+"&pais="+pais);
     
   }
 
