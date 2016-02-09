@@ -291,8 +291,7 @@
                                 <thead>
                                   <tr>
                                     <th>ID</th>
-                                    <th>Equipo Local</th>
-                                    <th>Equivo Visita</th>
+                                    <th>Partido</th>
                                     <th>Fecha</th>
                                     <th>Hora</th>
                                     <th>Estado</th>
@@ -319,14 +318,73 @@
                                   ?>
                                   <tr>
                                     <td><?php echo $row->idpartido ?></td>
-                                    <td><?php echo $row->equipolocal ?></td>
-                                    <td><?php echo $row->equipovisita ?></td>
+                                    <?php
+                                      if($row->idseccionpartido==1){
+                                        require_once ('lib/nusoap.php');
+                                        $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
+                                        $cliente = new nusoap_client($wsdl, true);   
+
+
+                                        $dato = $row->equipolocal;
+                                        $result = $cliente->call("ImagenClub", array("dato" => $dato));
+                                        $response=json_decode($result,true);
+
+                                        $dato2 = $row->equipovisita;
+                                        $result2 = $cliente->call("ImagenClub", array("dato" => $dato2));
+                                        $response2=json_decode($result2,true);
+
+                                        
+
+                                      ?>
+
+                                      <td align="center">
+                                        <div style="display:none;"><?php echo $response['nombre_equipo']?></div>
+                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" width="20px">
+                                         VS  
+                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>" width="20px">
+                                        <div style="display:none;"><?php echo $response2['nombre_equipo']?></div>
+                                      </td>
+                                      
+
+                                      <?php
+                                      }else{
+                                        require_once ('lib/nusoap.php');
+                                        $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
+                                        $cliente = new nusoap_client($wsdl, true);   
+
+
+                                        $dato = $row->equipolocal;
+                                        $result = $cliente->call("ImagenPais", array("dato" => $dato));
+                                        $response=json_decode($result,true);
+
+                                        $dato2 = $row->equipovisita;
+                                        $result2 = $cliente->call("ImagenPais", array("dato" => $dato2));
+                                        $response2=json_decode($result2,true);
+
+                                      ?>
+
+                                      <td align="center">
+                                        <div style="display:none;"><?php echo $response['nombre']?></div>
+                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" width="20px">
+                                         VS  
+                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>" width="20px">
+                                        <div style="display:none;"><?php echo $response2['nombre']?></div>
+                                      </td>
+                                        
+                                      <?php
+                                      }
+                                    ?>
+
+
+                                    
+                                    
                                     <td><?php echo $row->fecha ?></td>
                                     <td><?php echo $row->hora ?></td>
                                     <td><?php echo $row->estado ?></td>
                                     <td> 
                                      
                                     </td>
+
                                   </tr>
                                   <?php
                                     }

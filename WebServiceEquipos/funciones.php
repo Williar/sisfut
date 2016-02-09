@@ -91,10 +91,12 @@ function ImagenClub($dato){
 
 
 	foreach($rows as $row){
-		$cadena=$row->imagen_nomequi;
+		//$cadena=$row->imagen_nomequi;
+		$result = array('imagen'=>$row->imagen_nomequi,'nombre_equipo'=>$row->nombre_equipo);
 	}
 
-	return $cadena;
+	//return $cadena;
+	return json_encode($result);
 
 }
 
@@ -112,10 +114,12 @@ function ImagenPais($dato){
 
 
 	foreach($rows as $row){
-		$cadena=$row->imagen_pais;
+		//$cadena=$row->imagen_pais;
+		$result = array('imagen'=>$row->imagen_pais,'nombre'=>$row->nombre);
 	}
 
-	return $cadena;
+	//return $cadena;
+	return json_encode($result);
 
 }
 

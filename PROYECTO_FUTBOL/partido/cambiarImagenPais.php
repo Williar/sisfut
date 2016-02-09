@@ -19,7 +19,8 @@ else {
         echo "<h2>Error</h2><pre>" . $error . "</pre>";
     }
     else {
-        echo $result;
+        $response=json_decode($result,true);
+        echo $response['imagen'];
     }
 }
 

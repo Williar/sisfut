@@ -37,12 +37,12 @@ foreach($rows as $row){
 
 if(!$programado){
 
-	$sql2 = 'INSERT INTO partido (fecha, hora, equipolocal, equipovisita, arbitro, idestadio, idtipopartido, estado) 
-	VALUES (:fecha,:hora,:equipolocal,:equipovisita,:arbitro, :idestadio, :idtipopartido, :estado)';
+	$sql2 = 'INSERT INTO partido (fecha, hora, equipolocal, equipovisita, arbitro, idestadio, idseccionpartido,idtipopartido, estado) 
+	VALUES (:fecha,:hora,:equipolocal,:equipovisita,:arbitro, :idestadio, :idseccionpartido, :idtipopartido, :estado)';
 
 	$q2 = $con->prepare($sql2);
 	$q2->execute(array(':fecha'=>$fecha, ':hora'=>$hora, ':equipolocal'=>$equipolocal, 
-		':equipovisita'=>$equipovisita,':arbitro'=>$arbitro, ':idestadio'=>$idestadio, 
+		':equipovisita'=>$equipovisita,':arbitro'=>$arbitro, ':idestadio'=>$idestadio, ':idseccionpartido'=>$seccion,
 		':idtipopartido'=>$tipo, ':estado'=>'HABILITADO'));
 
 	
