@@ -113,7 +113,7 @@
                                     <div class="form-group">
                                       <label>Hora:</label>
                                       <div class="input-group">
-                                        <input type="text" class="form-control timepicker">
+                                        <input type="text" class="form-control timepicker" name="hora">
                                         <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                         </div>
@@ -220,32 +220,53 @@
 
                             	<div class="row">
 			                      <div class="col-xs-5 .col-sm-5" id="imagenequipolocal">
-			                        <img src="img/emelec-escudo.jpg" width="100%">
+			                        <img src="img/zapato.png" width="100%">
 			                      </div>
 			                      <div class="col-xs-2 .col-sm-5" style="top:30px;">
 			                        <img src="img/versus.png" width="100%">
 			                      </div>
 			                      <div class="col-xs-5 .col-sm-10" id="imagenequipovisita">
-			                        <img src="img/barcelona-escudo.jpg" width="100%">
+			                        <img src="img/zapato.png" width="100%">
 			                      </div>
 			                    </div>
                           <hr>
                           <div class="row">
                             <div class="col-md-12">
-                              PRECIOS
+                              <b><labek>Precios de entradas</label></b>
                             </div>
                           </div>
 
+                          <?php
+                            
 
+                            $sql = 'SELECT DISTINCT A.idseccion, S.nombre FROM asiento A, seccion S WHERE A.idestadio=:idestadio AND S.idseccion=A.idseccion ';
+                            $q = $con->prepare($sql);
+                            $q->execute(array(':idestadio'=>$_SESSION['IDESTADIO']));
+
+                           
+
+
+                            $rows = $q->fetchAll(\PDO::FETCH_OBJ);
+                            foreach($rows as $row){
+                             
+                            
+                          ?>
+                          <div class="row">
+                            <br>
+                            <div class="col-md-4">
+                              <div class="input-group">
+                                <span class="input-group-addon"><?php echo $row->nombre ?> $</span>
+                                <input type="text" class="form-control" name="precio<?php echo $row->nombre ?>">
+                                <span class="input-group-addon">.00</span>
+                              </div>
+                            </div>
+                          </div>  
+                          <?php
+                            }
+                          ?>
 
 			                    <br>
-
-                                
-                                
-                                
-                                
-                                <!-- Change this to a button or input when using this as a form -->
-                                <button type="submit" class="btn btn-block btn-lg btn-success" onclick="registrarPartido(); return false;"><i class="fa fa-futbol-o"></i> Crear Partido</button>
+                          <button type="submit" class="btn btn-block btn-lg btn-success" onclick="registrarPartido(); return false;"><i class="fa fa-futbol-o"></i> Crear Partido</button>
                           </fieldset>
                         </form>
                       </div>
@@ -456,6 +477,57 @@
     ajax.send("clubes=todos");
 
 
+    
+  }
+
+
+  function registrarPartido(){
+    var fecha = document.frmNuevoPartido.fecha.value;
+    var hora = document.frmNuevoPartido.hora.value;
+    var tipo = document.frmNuevoPartido.tipopartido.value;
+    var seccion = document.frmNuevoPartido.seccion.value;
+    var arbitro = document.frmNuevoPartido.arbitro.value;
+    var equipolocal = document.frmNuevoPartido.equipolocal.value;
+    var equipovisita = document.frmNuevoPartido.equipovisita.value;
+
+    var precioVIP = document.frmNuevoPartido.precioVIP.value;
+    var precioPalco = document.frmNuevoPartido.precioPalco.value;
+    var precioPreferencial = document.frmNuevoPartido.precioPreferencial.value;
+    var precioTribuna = document.frmNuevoPartido.precioTribuna.value;
+    var precioGeneral = document.frmNuevoPartido.precioGeneral.value;
+
+
+    if(fecha==''||hora==''||arbitro=''){
+        document.getElementById("mensajeFrmNuevoPartido").innerHTML = 'Todos los campos son obligatorios';
+    }else{
+
+    }
+    
+    /*
+    ajax = objetoAjax();
+
+
+    ajax.open("POST", "partido/ingresar_partido.php", true);
+    
+   
+    ajax.onreadystatechange=function() {
+        if (ajax.readyState==4) {
+          var mensajeRespuesta = ajax.responseText;
+
+          if(mensajeRespuesta=='BIEN'){
+            window.location.reload(true);
+          }else{
+            document.getElementById("mensajeFrmNuevoPartido").innerHTML = mensajeRespuesta;
+          
+          }
+     
+          
+        }
+    }
+    ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+    ajax.send("fecha="+fecha+"&hora="+hora+"&tipo="+tipo+"&seccion="+seccion+
+      "&arbitro="+arbitro+"&equipolocal="+equipolocal+"&equipovisita="+equipovisita);
+    */
     
   }
   
