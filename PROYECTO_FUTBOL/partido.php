@@ -229,6 +229,14 @@
 			                        <img src="img/barcelona-escudo.jpg" width="100%">
 			                      </div>
 			                    </div>
+                          <hr>
+                          <div class="row">
+                            <div class="col-md-12">
+                              PRECIOS
+                            </div>
+                          </div>
+
+
 
 			                    <br>
 

@@ -35,7 +35,12 @@ function ListarPaises($dato){
 
 
 	foreach($rows as $row){
-		$cadena.="<option value='".$row->idpais."'>";
+		if($row->idpais==$dato){
+			$cadena.="<option selected value='".$row->idpais."'>";
+		}else{
+			$cadena.="<option value='".$row->idpais."'>";
+		}
+		
 		$cadena.="<nombre>".$row->nombre."</nombre>";
 		$cadena.="</option>";
 	}
