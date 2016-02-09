@@ -382,7 +382,15 @@
                                     <td><?php echo $row->hora ?></td>
                                     <td><?php echo $row->estado ?></td>
                                     <td> 
-                                     
+                                      <div class="btn-group">
+                                        <a onclick="window.location=''"  title="Editar" style="cursor: pointer;">
+                                          <span class="glyphicon glyphicon-edit"></span>
+                                        </a>
+                                      
+                                         <a onclick=""  title="Eliminar" style="cursor: pointer;">
+                                           <span class="glyphicon glyphicon-remove"></span>
+                                        </a>
+                                      </div>
                                     </td>
 
                                   </tr>
