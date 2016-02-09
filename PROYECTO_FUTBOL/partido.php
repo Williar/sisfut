@@ -6,8 +6,65 @@
   }else{
     if($_SESSION['IDROL']!=2){
     	header('Location: index.php');
+    }else{
+      require('conexion.php');
+      $con = Conectar();
+
+
+      $sql = 'SELECT COUNT(*) FROM asiento WHERE idestadio=:idestadio';
+      $q = $con->prepare($sql);
+      $q->execute(array(':idestadio'=>$_SESSION['IDESTADIO']));
+
+      $existe = $q->fetchColumn();
+
+      $sql = 'SELECT * FROM estadio WHERE idestadio='.$_SESSION['IDESTADIO'].'';
+
+      $q2 = $con->prepare($sql);
+      $q2->execute();
+
+      $rows = $q2->fetchAll(\PDO::FETCH_OBJ); 
+
+      $maxreserva = 0;
+
+      foreach($rows as $row){
+        $maxreserva = $row->maxreserva;
+      }
+
+
+
+
+
     }
   }
+
+  if($existe==0 || $maxreserva==''){
+    ?>
+    <div class="content-wrapper">
+      <div class="row">
+        <div class="col-md-10 col-md-offset-1">
+          <div align="center"><h3>Administración de Partidos</h3></div>
+          <div class="callout callout-info">
+            <h4>Recuerde:</h4>
+            <p align="justify">Para poder crear un partido, primero debe establecer los Asientos y Política del Estadio.</p>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <button type="submit" class="btn btn-block btn-lg btn-success" onclick="window.location='asientos.php'"><i class="fa fa"></i> Establecer Asientos</button>
+            </div>
+            <div class="col-md-6">
+              <button type="submit" class="btn btn-block btn-lg btn-success" onclick="window.location='politica.php'"><i class="fa fa"></i> Establecer Política</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    
+    <?php
+        
+  }else{
+
+
 ?>
 
 
@@ -15,9 +72,6 @@
  <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper">
           <br>
-
-          
-
            <div class="row">
             <div class="col-md-10 col-md-offset-1">
               <div align="center"><h3>Administración de Partidos</h3></div>
@@ -383,5 +437,6 @@
 
 
 <?php
+}
   include('pie.php');
 ?>

@@ -28,22 +28,22 @@
                   	<?php
 
                   	require('conexion.php');
-					$con = Conectar();
+          					$con = Conectar();
 
 
 
-					$sql = 'SELECT * FROM estadio WHERE idestadio='.$_SESSION['IDESTADIO'].'';
+          					$sql = 'SELECT * FROM estadio WHERE idestadio='.$_SESSION['IDESTADIO'].'';
 
-					$q2 = $con->prepare($sql);
-					$q2->execute();
+          					$q2 = $con->prepare($sql);
+          					$q2->execute();
 
-					$rows = $q2->fetchAll(\PDO::FETCH_OBJ);	
+          					$rows = $q2->fetchAll(\PDO::FETCH_OBJ);	
 
-					$maxreserva = 0;
+          					$maxreserva = 0;
 
-					foreach($rows as $row){
-						$maxreserva = $row->maxreserva;
-					}
+          					foreach($rows as $row){
+          						$maxreserva = $row->maxreserva;
+          					}
 
 
 					
