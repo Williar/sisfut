@@ -1,10 +1,10 @@
 <?php
   include('cabecera.php');
-  //if(isset($_SESSION['USER'])==''){
+  if(isset($_SESSION['USER'])==''){
 
-  //}else{
-  //  header('Location: login.php');      
-  //}
+  }else{
+    header('Location: /login.php');      
+  }
   
 ?>      
 
@@ -15,17 +15,22 @@
 <img align="center" src="img/sisfutweb.png" width="340" height="150">
 </div>
       <div class="starter-template">
-        <div align="center">
-        <h1>MIS RESERVAS</h1>
-        </div>
-        <button type="button" onclick="Nuevo();" class="btn btn-success btn-md" >
+        <!--<button type="button" onclick="Nuevo();" class="btn btn-success btn-md" >
           <span class="glyphicon glyphicon-user"></span> Nueva Reserva
-        </button>
+        </button>-->
       </div>
 <div class="panel panel-success">
-        <div class="panel-heading">Partidos</div>
+        <div class="panel-heading">Reservas Pendientes</div>
         <div class="panel-body">
-        <table class="table">
+        <div class="box-body">
+                          <div class="box">
+                            <div class="box-header">
+                              <h3 class="box-title"><b>Mis Reservas</b></h3>
+                            </div><!-- /.box-header -->
+                            <div class="box-body">
+
+
+        <table class="table table-bordered table-striped">
           <thead>
             <tr>
             <th>Fecha</th>
@@ -74,6 +79,7 @@
                     </button>
                     <ul class="dropdown-menu" role="menu">
                       <li><a onclick="EliminarReserva('<?php print($row->idreserva); ?>');">Eliminar</a></li>
+                      <li><a onclick="EditarReserva('');">Actualizar</a></li>
                     </ul>
                   </div>
                 </td>
@@ -83,7 +89,9 @@
             ?>
           </tbody>
         </table>
-        </section>-
+        </div><!-- /.box-body -->
+                          </div><!-- /.box -->
+        </section>
       </div>
 
 
