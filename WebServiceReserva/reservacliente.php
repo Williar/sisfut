@@ -19,11 +19,11 @@ function GenerarCR(){
 	//print_r(json_decode($response));
 
 	$codreserva=$response1['codreserva'];
-	//print_r($response1['codreserva']);
-	echo "<input type='text'>";
+	
 	return $codreserva;
-	//$myVar = json_decode($response['nombres']);
-	//print_r($myVar);	
 }
-echo GenerarCR();
+
+$cd = GenerarCR();
+echo $cd;
+
 ?>

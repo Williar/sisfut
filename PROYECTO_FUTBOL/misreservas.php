@@ -9,7 +9,7 @@
 ?>
       
     
-
+<script type="text/javascript" src="js/ajax_reserva.js"></script>
 <div id="contenedor" class="content-wrapper">
 <section class="content-header">
 <div align="center">
@@ -45,7 +45,7 @@
             require("Conexion.php");
             $con = Conectar();  			
 
-			$sql='SELECT partido.fecha, partido.hora, estadio.pais, estadio.localidad, estadio.direccion,
+			$sql='SELECT reserva.idreserva, partido.fecha, partido.hora, estadio.pais, estadio.localidad, estadio.direccion,
 				partido.equipolocal,partido.equipovisita, reserva.precio, reserva.estado FROM reserva 
 				INNER JOIN partido ON partido.idpartido=reserva.idpartido 
 				INNER JOIN estadio ON partido.idestadio = estadio.idestadio
@@ -74,7 +74,7 @@
                       <span class="caret"></span>
                     </button>
                     <ul class="dropdown-menu" role="menu">
-                      
+                      <li><a onclick="EliminarReserva('<?php print($row->idreserva); ?>');">Eliminar</a></li>
                     </ul>
                   </div>
                 </td>
