@@ -6,9 +6,8 @@
   //  header('Location: login.php');      
   //}
   
-?>
-      
-    
+?>      
+
 <script type="text/javascript" src="js/ajax_reserva.js"></script>
 <div id="contenedor" class="content-wrapper">
 <section class="content-header">
@@ -31,7 +30,7 @@
             <tr>
             <th>Fecha</th>
             <th>Hora</th>
-            <th>Pais</th>
+            <th>Cod. Reserva</th>
             <th>Donde se Jugara?</th>
             <th>Direccion</th>                            
               <th>Equipo Local</th>
@@ -45,7 +44,7 @@
             require("Conexion.php");
             $con = Conectar();  			
 
-			$sql='SELECT reserva.idreserva, partido.fecha, partido.hora, estadio.pais, estadio.localidad, estadio.direccion,
+			$sql='SELECT reserva.idreserva, partido.fecha, partido.hora, reserva.codreserva, estadio.localidad, estadio.direccion,
 				partido.equipolocal,partido.equipovisita, reserva.precio, reserva.estado FROM reserva 
 				INNER JOIN partido ON partido.idpartido=reserva.idpartido 
 				INNER JOIN estadio ON partido.idestadio = estadio.idestadio
@@ -59,7 +58,7 @@
               <tr>
               <td><?php print($row->fecha); ?></td>
               <td><?php print($row->hora); ?></td>
-              <td><?php print($row->pais); ?></td>
+              <td><?php print($row->codreserva); ?></td>
               <td><?php print($row->localidad); ?></td>
               <td><?php print($row->direccion); ?></td>
                 <td><?php print($row->equipolocal); ?></td>
