@@ -338,11 +338,13 @@
                                       ?>
 
                                       <td align="center">
-                                        <div style="display:none;"><?php echo $response['nombre_equipo']?></div>
-                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" width="20px">
+                                        <div style="display:none;"><?php echo $response['nombre']?></div>
+                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" 
+                                        width="20px" title="<?php echo $response['nombre']?>">
                                          VS  
-                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>" width="20px">
-                                        <div style="display:none;"><?php echo $response2['nombre_equipo']?></div>
+                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>"
+                                         width="20px" title="<?php echo $response2['nombre']?>">
+                                        <div style="display:none;"><?php echo $response2['nombre']?></div>
                                       </td>
                                       
 
@@ -365,9 +367,11 @@
 
                                       <td align="center">
                                         <div style="display:none;"><?php echo $response['nombre']?></div>
-                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" width="20px">
+                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" 
+                                        width="20px" title="<?php echo $response['nombre']?>">
                                          VS  
-                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>" width="20px">
+                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>" 
+                                        width="20px" title="<?php echo $response2['nombre']?>">
                                         <div style="display:none;"><?php echo $response2['nombre']?></div>
                                       </td>
                                         

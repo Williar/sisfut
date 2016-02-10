@@ -50,10 +50,36 @@
 
               $rows = $q->fetchAll(\PDO::FETCH_OBJ);
 
-
+              require_once ('lib/nusoap.php');
+              $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
+              $cliente = new nusoap_client($wsdl, true);   
 
 
               foreach($rows as $row){
+
+
+                $dato = $row->equipolocal;
+                $resultpais = $cliente->call("ImagenPais", array("dato" => $row->pais));
+                $responsepais=json_decode($resultpais,true);
+
+                if($row->idseccionpartido==1){
+                  
+                  $dato = $row->equipolocal;
+                  $result = $cliente->call("ImagenClub", array("dato" => $dato));
+                  $response=json_decode($result,true);
+
+                  $dato2 = $row->equipovisita;
+                  $result2 = $cliente->call("ImagenClub", array("dato" => $dato2));
+                  $response2=json_decode($result2,true);
+                }else{
+                  $dato = $row->equipolocal;
+                  $result = $cliente->call("ImagenPais", array("dato" => $dato));
+                  $response=json_decode($result,true);
+
+                  $dato2 = $row->equipovisita;
+                  $result2 = $cliente->call("ImagenPais", array("dato" => $dato2));
+                  $response2=json_decode($result2,true);
+                }
 
 
                 
@@ -72,13 +98,13 @@
                 <div class="box-body">
                    <div class="row">
                      <div class="col-xs-5 .col-sm-5">
-                        <img src="img/emelec-escudo.jpg" width="100%">
+                        <img src="http://localhost/sisfut/webserviceequipos/'.$response['imagen'].'" width="100%">
                       </div>
                       <div class="col-xs-2 .col-sm-5" style="top:30px;">
                         <img src="img/versus.png" width="100%">
                       </div>
                       <div class="col-xs-5 .col-sm-10">
-                        <img src="img/barcelona-escudo.jpg" width="100%">
+                        <img src="http://localhost/sisfut/webserviceequipos/'.$response2['imagen'].'" width="100%">
                       </div>
                     </div>
                     <hr>
@@ -95,7 +121,7 @@
                         <b>Eq. Local:</b>
                       </div>
                       <div class="col-xs-7 .col-sm-7 ">
-                        '.$row->equipolocal.'
+                        '.$response['nombre'].'
                       </div>
                     </div>
                     <div class="row">
@@ -103,7 +129,7 @@
                         <b>Eq. Visitante:</b>
                       </div>
                       <div class="col-xs-7 .col-sm-7">
-                        '.$row->equipovisita.'
+                        '.$response2['nombre'].'
                       </div>
                     </div>
                     <div class="row">
@@ -111,7 +137,7 @@
                         <b>País:</b>
                       </div>
                       <div class="col-xs-7 .col-sm-7">
-                        '.$row->pais.'
+                        '.$responsepais['nombre'].'
                       </div>
                     </div>
                     <div class="row">

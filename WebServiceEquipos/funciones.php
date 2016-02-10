@@ -92,7 +92,7 @@ function ImagenClub($dato){
 
 	foreach($rows as $row){
 		//$cadena=$row->imagen_nomequi;
-		$result = array('imagen'=>$row->imagen_nomequi,'nombre_equipo'=>$row->nombre_equipo);
+		$result = array('imagen'=>$row->imagen_nomequi,'nombre'=>$row->nombre_equipo);
 	}
 
 	//return $cadena;
