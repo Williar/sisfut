@@ -510,7 +510,7 @@
       if(cant!=0){
         alert('Reserva hecha');
 
-        $('#perra').html(''+idpersona);
+        
 
         ajax = objetoAjax();
 
