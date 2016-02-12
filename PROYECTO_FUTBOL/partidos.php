@@ -1,6 +1,5 @@
 <?php
 
-
   include('cabecera.php');
 ?>
 
@@ -37,7 +36,7 @@
                                     <th>Hora</th>
                                     <th>Estadio</th>
                                     <th>Estado</th>
-                                    <th>Ver</th>
+                                    <th>Reservar</th>
                                   </tr>
                                 </thead>
                                 <tbody>
@@ -137,6 +136,34 @@
                                         <a onclick="detallePartido(<?php echo $row->idpartido ?>);"  title="Detalle del Partido" style="cursor: pointer;">
                                           <span class="glyphicon glyphicon-search"></span>
                                         </a>
+
+                                        <?php
+                                          if(isset($_SESSION['USER'])!=''){
+
+                                            $sql = 'SELECT COUNT(*) FROM reserva WHERE idpersona='.$_SESSION['IDPERSONA'].' AND idpartido='.$row->idpartido;
+
+                                            $qReservado = $con->prepare($sql);
+                                            $qReservado->execute();
+
+                                            $btnReservado = $qReservado->fetchColumn();
+
+                                            $codigoHtml = $codigoHtml.'<div class="col-md-6"><br>';
+                                              
+                                              
+                                            if($btnReservado>0){
+                                          ?>
+                                                
+                                          <?php
+                                            }else{
+                                              ?>
+                                                <a onclick="Reservar(<?php echo $row->idpartido ?>);"  title="Reservar" style="cursor: pointer;">
+                                                  <span class="glyphicon glyphicon-briefcase"></span>
+                                                </a>
+                                            <?php
+                                            }                                
+                                        }
+                                        ?>
+                                        
                                       
                                       </div>
                                     </td>
@@ -237,7 +264,31 @@
                                                   </div>
                                                   <div class="col-md-6">
                                                     <br>
-                                                    <button class="btn btn-block btn-success"><i class="fa fa-location-arrow"></i> Reservar</button>
+                                                    <?php
+                                                      if(isset($_SESSION['USER'])!=''){
+
+                                                        $sql = 'SELECT COUNT(*) FROM reserva WHERE idpersona='.$_SESSION['IDPERSONA'].' AND idpartido='.$row->idpartido;
+
+                                                        $qReservado = $con->prepare($sql);
+                                                        $qReservado->execute();
+
+                                                        $btnReservado = $qReservado->fetchColumn();
+
+                                                        $codigoHtml = $codigoHtml.'<div class="col-md-6"><br>';
+                                                          
+                                                          
+                                                        if($btnReservado>0){
+                                                      ?>
+                                                            <button class="btn btn-block btn-info" onclick=""><i class="fa fa-get-pocket"></i> Reservado</button>';
+                                                      <?php
+                                                        }else{
+                                                          ?>
+                                                            <button class="btn btn-block btn-success" onclick="Reservar(<?php echo $row->idpartido ?>);"><i class="fa fa-location-arrow"></i> Reservar</button>';
+                                                        <?php
+                                                        }                                
+                                                    }
+                                                    ?>
+                                                    
                                                   </div>
                                                   
                                                 </div>
@@ -249,8 +300,13 @@
                                       </div><!-- /.modal-dialog -->
                                     </div><!-- /.modal -->
                                   </div>
+
+                                  
+
+
                                   <?php
                                     }
+
                                   ?>
                                   
                                 </tbody>
@@ -264,6 +320,111 @@
 
         
       </div>
+      <?php
+      foreach($rows as $row){
+        ?>
+      <div class="modal fade" id="modalReserva<?php echo $row->idpartido ?>" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+              <div class="modal-title" > <i>Reservas de Asientos</i></div>
+            </div>
+            <form role="form" action="" name="frmReserva">
+
+              <div class="col-md-12">
+                <table class="table table-striped" id="tablaSecciones<?php echo $row->idpartido ?>">
+                    <thead>
+                      
+                        <th>#</th>
+                        <th>Sección</th>
+                        <th>Precio</th>
+                        <th>Disponible</th>
+                        <th style="width: 140px">Reservar</th>                              
+                    </thead>
+                    <tbody>
+                      <?php
+
+                    $sql = 'SELECT * FROM seccion';
+
+                    $q2 = $con->prepare($sql);
+                    $q2->execute();
+
+                    $rowsSeccion = $q2->fetchAll(\PDO::FETCH_OBJ);
+
+                    foreach($rowsSeccion as $rowSeccion){
+                      $sql = 'SELECT COUNT(*) FROM asiento WHERE idseccion='.$rowSeccion->idseccion.' AND idestadio='.$row->idestadio;
+
+                      $q3 = $con->prepare($sql);
+                      $q3->execute();
+
+
+                      $numTotal = $q3->fetchColumn();
+
+
+                      $sql = 'SELECT COUNT(*) FROM reserva R, detalle_reserva D, asiento A WHERE R.idpartido='.$row->idpartido.' AND D.idreserva=R.idreserva AND D.idasiento=A.idasiento AND A.idseccion='.$rowSeccion->idseccion.' AND A.idestadio='.$row->idestadio;
+                      $qNUm = $con->prepare($sql);
+                      $qNUm->execute();
+
+
+                      $numReservados = $qNUm->fetchColumn();
+                      $numDisponible = $numTotal - $numReservados;
+
+                      
+
+                      
+
+                       $sql = 'SELECT * FROM costo WHERE idpartido = '.$row->idpartido.'  AND idseccion = '.$rowSeccion->idseccion;
+                       $q4 = $con->prepare($sql);
+                       $q4->execute();
+
+                       $rowsCosto = $q4->fetchAll(\PDO::FETCH_OBJ);
+
+                       foreach($rowsCosto as $rowCosto){
+                        ?>
+                
+
+                        <tr>
+                          <td><?php echo $rowSeccion->idseccion ?></td>
+                          <td><?php echo $rowSeccion->nombre ?></td>
+                          <td><?php echo $rowCosto->costo ?></td>
+                          <td><?php echo $numDisponible ?></td>
+                          <td>
+                              <input class="form-control input-sm" 
+                              placeholder="Cantidad" id="<?php echo $row->idpartido ?>cantidad<?php echo $rowSeccion->idseccion ?>" 
+                              type="number"  max="<?php echo $numDisponible ?>" min="0" 
+                              onkeypress="return bloquearCampoNumber(event)" autofocus required>
+                          </td>                                
+                      </tr>
+                      <?php
+             }
+
+            
+          }
+
+          ?>
+
+                      
+                   </tbody></table>
+                </div>
+              
+            </form>
+            <div class="col-lg-6">
+                <span>Cada usuario puede reservar hasta <?php echo $row->maxreserva ?> asientos máximo por partido, según las políticas del estadio (<?php echo $row->nombre ?>)</span>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-info" onClick="RegistrarReserva(<?php echo $row->idpartido ?>,<?php echo $row->maxreserva ?>); return false">
+                  <span class="glyphicon glyphicon-save" aria-hidden="true"></span> Reservar
+              </button>
+              <button type="button" class="btn btn-danger" data-dismiss="modal"><span class="glyphicon glyphicon-remove-circle" aria-hidden="true"></span> Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <?php
+          }
+      ?>
 
       
      
@@ -273,8 +434,118 @@
 
 <script type="text/javascript">
 
+  var idpersona = <?php  echo $_SESSION['IDPERSONA']; ?>
+
+  function objetoAjax(){
+    var xmlhttp=false;
+    try {
+      xmlhttp = new ActiveXObject("Msxml2.XMLHTTP");
+    } catch (e) {
+      try {
+        xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+      } catch (E) {
+        xmlhttp = false;
+      }
+    }
+    if (!xmlhttp && typeof XMLHttpRequest!='undefined') {
+      xmlhttp = new XMLHttpRequest();
+    }
+    return xmlhttp;
+  }
+
   function detallePartido(idpartido){
     $('#modal'+idpartido).modal('show');
+  }
+
+  function Reservar(idpartido){
+    $('#modalReserva'+idpartido).modal('show');
+  }
+
+
+  function RegistrarReserva(idpartido, maxreserva){
+
+
+    var listaSecciones = [];
+    var listaCantidad = [];
+
+    var tempTabla = 0;
+
+    $('#tablaSecciones'+idpartido+' tr').each(function() {
+
+        if(tempTabla>0){
+          idseccion = $(this).find("td").eq(0).html();
+          var cantidad = $("#"+idpartido+"cantidad"+idseccion).val();
+
+          if(cantidad==''||cantidad==null){
+            cantidad = 0
+          } 
+
+
+          listaSecciones.push(idseccion);
+          listaCantidad.push(cantidad);
+        }
+        
+        tempTabla++;
+
+    });
+
+   
+
+
+    var cant = 0;
+
+    for(var i=1; i<=6; i++){
+      var temp = $("#"+idpartido+"cantidad"+i).val();
+      if(temp==''||temp==null){
+        temp = 0
+      } 
+      cant = cant + parseInt(temp);
+    }
+
+    
+    
+    if(cant>maxreserva){
+      alert('EL LIMITE ES '+maxreserva);
+    }else{
+      if(cant!=0){
+        alert('Reserva hecha');
+
+        $('#perra').html(''+idpersona);
+
+        ajax = objetoAjax();
+
+
+
+        ajax.open("POST", "reserva/insertar_reserva.php", true);
+
+        ajax.onreadystatechange=function() {
+            if (ajax.readyState==4) {
+              window.location.reload(true);
+              //document.getElementById("perra").innerHTML = ajax.responseText;
+            }
+          }
+        ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
+        ajax.send("idpersona="+idpersona+"&idpartido="+idpartido+"&listaSecciones="+listaSecciones+"&listaCantidad="+listaCantidad);
+
+      }
+      
+    }
+
+  }
+
+ 
+
+  function bloquearCampoNumber(e){
+   tecla = (document.all) ? e.keyCode : e.which;
+
+    //Tecla de retroceso para borrar, siempre la permite
+    if (tecla==-1){
+      return true;
+    }else{
+              return false;
+          }
+
+
   }
 </script>
 

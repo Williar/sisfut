@@ -389,7 +389,7 @@
           cant = cant + parseInt(temp);
         }
 
-        alert(cant);
+        
         
         if(cant>maxreserva){
           alert('EL LIMITE ES '+maxreserva);
@@ -418,9 +418,6 @@
           
         }
 
-      
-      
-        
       }
 
 
