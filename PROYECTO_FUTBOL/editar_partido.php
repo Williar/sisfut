@@ -1,95 +1,31 @@
 <?php
+
   include('cabecera.php');
-
-  if(isset($_SESSION['USER'])==''){
-  		header('Location: login.php');
-  }else{
-    if($_SESSION['IDROL']!=2){
-    	header('Location: index.php');
-    }else{
-      require('conexion.php');
-      $con = Conectar();
-
-
-      $sql = 'SELECT COUNT(*) FROM asiento WHERE idestadio=:idestadio';
-      $q = $con->prepare($sql);
-      $q->execute(array(':idestadio'=>$_SESSION['IDESTADIO']));
-
-      $existe = $q->fetchColumn();
-
-      $sql = 'SELECT * FROM estadio WHERE idestadio='.$_SESSION['IDESTADIO'].'';
-
-      $q2 = $con->prepare($sql);
-      $q2->execute();
-
-      $rows = $q2->fetchAll(\PDO::FETCH_OBJ); 
-
-      $maxreserva = 0;
-
-      foreach($rows as $row){
-        $maxreserva = $row->maxreserva;
-      }
-
-
-
-
-
-    }
-  }
-
-  if($existe==0 || $maxreserva==''){
-    ?>
-    <div class="content-wrapper">
-      <div class="row">
-        <div class="col-md-10 col-md-offset-1">
-          <div align="center"><h3>Administración de Partidos</h3></div>
-          <div class="callout callout-info">
-            <h4>Recuerde:</h4>
-            <p align="justify">Para poder crear un partido, primero debe establecer los Asientos y Política del Estadio.</p>
-          </div>
-          <div class="row">
-            <div class="col-md-6">
-              <button type="submit" class="btn btn-block btn-lg btn-success" onclick="window.location='asientos.php'"><i class="fa fa"></i> Establecer Asientos</button>
-            </div>
-            <div class="col-md-6">
-              <button type="submit" class="btn btn-block btn-lg btn-success" onclick="window.location='politica.php'"><i class="fa fa"></i> Establecer Política</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    
-    <?php
-        
-  }else{
-
-
+  require('conexion.php');
+  $con= Conectar();
+  $idpartido = $_REQUEST['id'];
 ?>
 
-
-
- <!-- Content Wrapper. Contains page content -->
-      <div class="content-wrapper">
-          <br>
-           <div class="row">
-            <div class="col-md-10 col-md-offset-1">
-              <div align="center"><h3>Administración de Partidos</h3></div>
-              <div class="nav-tabs-custom">
-                <ul class="nav nav-tabs">
-                  <li class="active"><a href="#tab_1" data-toggle="tab">Crear Partido</a></li>
-                  <li><a href="#tab_2" data-toggle="tab">Ver Partidos</a></li>
-                </ul>
-                <div class="tab-content">
-                  <div class="tab-pane active" id="tab_1">
-                    <div class="box box-success">
+<div class="content-wrapper">
+    <div class="row">
+    	<div class="col-md-10 col-md-offset-1">
+    		<div class="box-body">
+    			 <div class="box box-success">
                       <div class="box-header with-border">
-                        <h3 class="box-title"><i>Nuevo Partido</i></h3>
+                        <h3 class="box-title"><i>Editar Partido</i></h3>
                         <div class="box-tools pull-right">
                           <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
                         </div>
                       </div>
                       <div class="box-body">
+                      	<?php
+                      		$sql = 'SELECT * FROM partido WHERE idpartido=:idpartido';
+                            $q = $con->prepare($sql);
+                            $q->execute(array(':idpartido'=>$idpartido));
+
+                            $rows = $q->fetchAll(\PDO::FETCH_OBJ);
+                            foreach($rows as $row){
+                      	?>
                         <form role="form" name="frmNuevoPartido">
                             <fieldset>
 
@@ -104,7 +40,7 @@
                                       <div class="input-group-addon">
                                         <i class="fa fa-calendar"></i>
                                       </div>
-                                      <input name="fecha" type="date" class="form-control">
+                                      <input name="fecha" type="date" class="form-control" value="<?php echo $row->fecha ?>">
                                     </div>
                                   </div>
                                   </div>
@@ -113,7 +49,8 @@
                                     <div class="form-group">
                                       <label>Hora:</label>
                                       <div class="input-group">
-                                        <input type="text" class="form-control timepicker" name="hora">
+                                        <input type="text" class="form-control timepicker" name="hora"
+                                        value="<?php echo $row->hora ?>">
                                         <div class="input-group-addon">
                                           <i class="fa fa-clock-o"></i>
                                         </div>
@@ -125,9 +62,9 @@
                                    	<div class="form-group">
                                       <label>Tipo de Partido</label>
                                       <select class="form-control select2"  name="tipopartido" style="width: 100%;" >
-                                        <option value="1">Amistoso</option>
-                                        <option value="2">Campeonato Nacional</option>
-                                        <option value="3">Campeonato Internacional</option>
+                                        <option value="1" <?php if($row->idtipopartido==1){echo 'selected';} ?>>Amistoso</option>
+                                        <option value="2"  <?php if($row->idtipopartido==2){echo 'selected';} ?>>Campeonato Nacional</option>
+                                        <option value="3"  <?php if($row->idtipopartido==3){echo 'selected';} ?>>Campeonato Internacional</option>
                                       </select>
                                     </div>
                                    </div>
@@ -138,8 +75,8 @@
                                 		<div class="form-group">
 	                                      <label>Sección</label>
 	                                      <select class="form-control select2"  name="seccion" style="width: 100%;" onchange="cambiarListaPaisClub();">
-	                                        <option value="1">Clubes</option>
-	                                        <option value="2">Países</option>
+	                                        <option value="1" <?php if($row->idseccionpartido==1){echo 'selected';} ?>>Clubes</option>
+	                                        <option value="2" <?php if($row->idseccionpartido==2){echo 'selected';} ?>>Países</option>
 	                                      </select>
 	                                    </div>
                                    </div>
@@ -147,7 +84,7 @@
                                 	<div class="col-md-8">
                                 		<div class="form-group">
 		                                    <label>Árbitro</label>
-		                                    <input class="form-control" placeholder="Árbitro o Juez" name="arbitro" type="text" autofocus>
+		                                    <input class="form-control" placeholder="Árbitro o Juez" name="arbitro" type="text" autofocus value="<?php echo $row->arbitro ?>">
 		                                </div>
                                 	</div>
                             	</div>
@@ -161,8 +98,12 @@
                                       require_once ('lib/nusoap.php');
                                       $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
                                       $cliente = new nusoap_client($wsdl, true);   
-
-                                      $result = $cliente->call("ListarClubes", array("dato" => "1s"));
+                                      if($row->idseccionpartido==1){
+                                      	$result = $cliente->call("ListarClubes", array("dato" => $row->equipolocal));
+                                      }else{
+                                      	$result = $cliente->call("ListarPaises", array("dato" => $row->equipolocal));
+                                      }
+                                      
 
                                       if ($cliente->fault) {
                                           echo "<h2>Fault</h2><pre>";
@@ -193,7 +134,11 @@
                                       $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
                                       $cliente = new nusoap_client($wsdl, true);   
 
-                                      $result = $cliente->call("ListarClubes", array("dato" => "1s"));
+                                      if($row->idseccionpartido==1){
+                                      	$result = $cliente->call("ListarClubes", array("dato" => $row->equipovisita));
+                                      }else{
+                                      	$result = $cliente->call("ListarPaises", array("dato" => $row->equipovisita));
+                                      }
 
                                       if ($cliente->fault) {
                                           echo "<h2>Fault</h2><pre>";
@@ -217,16 +162,47 @@
                             	</div>
                             	</div>
 
+                            	<?php
+                            		if($row->idseccionpartido==1){
+                                        require_once ('lib/nusoap.php');
+                                        $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
+                                        $cliente = new nusoap_client($wsdl, true);   
+
+
+                                        $dato = $row->equipolocal;
+                                        $result = $cliente->call("ImagenClub", array("dato" => $dato));
+                                        $response=json_decode($result,true);
+
+                                        $dato2 = $row->equipovisita;
+                                        $result2 = $cliente->call("ImagenClub", array("dato" => $dato2));
+                                        $response2=json_decode($result2,true);
+                                    }else{
+                                    	require_once ('lib/nusoap.php');
+                                        $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
+                                        $cliente = new nusoap_client($wsdl, true);   
+
+
+                                        $dato = $row->equipolocal;
+                                        $result = $cliente->call("ImagenPais", array("dato" => $dato));
+                                        $response=json_decode($result,true);
+
+                                        $dato2 = $row->equipovisita;
+                                        $result2 = $cliente->call("ImagenPais", array("dato" => $dato2));
+                                        $response2=json_decode($result2,true);
+                                    }
+
+                            	?>
+
 
                             	<div class="row">
 			                      <div class="col-xs-5 .col-sm-5" id="imagenequipolocal">
-			                        <img src="img/zapato.png" width="100%">
+			                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" width="100%">
 			                      </div>
 			                      <div class="col-xs-2 .col-sm-5" style="top:30px;">
 			                        <img src="img/versus.png" width="100%">
 			                      </div>
 			                      <div class="col-xs-5 .col-sm-10" id="imagenequipovisita">
-			                        <img src="img/zapato.png" width="100%">
+			                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>" width="100%">
 			                      </div>
 			                    </div>
                           <hr>
@@ -248,6 +224,14 @@
 
                             $rows = $q->fetchAll(\PDO::FETCH_OBJ);
                             foreach($rows as $row){
+
+                            	$sql = 'SELECT * FROM costo WHERE idpartido=:idpartido AND idseccion=:idseccion';
+	                            $q2 = $con->prepare($sql);
+	                            $q2->execute(array(':idpartido'=>$idpartido,':idseccion'=>$row->idseccion));
+	                            $rows2 = $q2->fetchAll(\PDO::FETCH_OBJ);
+
+	                            foreach($rows2 as $row2){
+
                              
                             
                           ?>
@@ -256,186 +240,33 @@
                             <div class="col-md-4">
                               <div class="input-group">
                                 <span class="input-group-addon"><?php echo $row->nombre ?> $</span>
-                                <input type="text" class="form-control" name="precio<?php echo $row->nombre ?>">
+                                <input type="text" class="form-control" name="precio<?php echo $row->nombre ?>" value="<?php echo $row2->costo ?>">
                                 <span class="input-group-addon">.00</span>
                               </div>
                             </div>
                           </div>  
                           <?php
+                      			}
                             }
                           ?>
 
 			                    <br>
                           
-                          <button type="submit" class="btn btn-block btn-lg btn-success" onclick="registrarpartido(); return false;"><i class="fa fa-futbol-o"></i> Crear Partido</button>
+                          <button type="submit" class="btn btn-block btn-lg btn-success" onclick="modificarpartido(); return false;"><i class="fa fa-futbol-o"></i> Crear Partido</button>
                           </fieldset>
                         </form>
+                        <?php
+                        	}
+                        ?>
                       </div>
                     </div>
-                  </div>
-                  <div class="tab-pane" id="tab_2">
-                      <div class="box box-success">
-                        <div class="box-header with-border">
-                          <h3 class="box-title"><i>Mis Partidos</i></h3>
-                          <div class="box-tools pull-right">
-                            <button class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i></button>
-                          </div>
-                        </div>
-                        <div class="box-body">
-                          <div class="box">
-                            <div class="box-header">
-                              <h3 class="box-title"><b>Listado de Partidos</b></h3>
-                            </div><!-- /.box-header -->
-                            <div class="box-body">
-                              <table id="example1" class="table table-bordered table-striped">
-                                <thead>
-                                  <tr>
-                                    <th>ID</th>
-                                    <th>Partido</th>
-                                    <th>Fecha</th>
-                                    <th>Hora</th>
-                                    <th>Estado</th>
-                                    <th>Acciones</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
+			</div>
 
-                                  <?php
+    	</div>
+    </div>
+</div>
 
-                                    
-                                    $sql = 'SELECT * FROM partido WHERE idestadio='.$_SESSION['IDESTADIO'].'';
-                                    $q2 = $con->prepare($sql);
-                                    $q2->execute();
-
-                                    $rows = $q2->fetchAll(\PDO::FETCH_OBJ); 
-
-
-                                    foreach($rows as $row){
-                                     
-                                    
-                                    
-
-                                  ?>
-                                  <tr>
-                                    <td><?php echo $row->idpartido ?></td>
-                                    <?php
-                                      if($row->idseccionpartido==1){
-                                        require_once ('lib/nusoap.php');
-                                        $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
-                                        $cliente = new nusoap_client($wsdl, true);   
-
-
-                                        $dato = $row->equipolocal;
-                                        $result = $cliente->call("ImagenClub", array("dato" => $dato));
-                                        $response=json_decode($result,true);
-
-                                        $dato2 = $row->equipovisita;
-                                        $result2 = $cliente->call("ImagenClub", array("dato" => $dato2));
-                                        $response2=json_decode($result2,true);
-
-                                        
-
-                                      ?>
-
-                                      <td align="center">
-                                        <div style="display:none;"><?php echo $response['nombre']?></div>
-                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" 
-                                        width="20px" title="<?php echo $response['nombre']?>">
-                                         VS  
-                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>"
-                                         width="20px" title="<?php echo $response2['nombre']?>">
-                                        <div style="display:none;"><?php echo $response2['nombre']?></div>
-                                      </td>
-                                      
-
-                                      <?php
-                                      }else{
-                                        require_once ('lib/nusoap.php');
-                                        $wsdl='http://localhost/sisfut/webserviceequipos/servicio.php?wsdl';
-                                        $cliente = new nusoap_client($wsdl, true);   
-
-
-                                        $dato = $row->equipolocal;
-                                        $result = $cliente->call("ImagenPais", array("dato" => $dato));
-                                        $response=json_decode($result,true);
-
-                                        $dato2 = $row->equipovisita;
-                                        $result2 = $cliente->call("ImagenPais", array("dato" => $dato2));
-                                        $response2=json_decode($result2,true);
-
-                                      ?>
-
-                                      <td align="center">
-                                        <div style="display:none;"><?php echo $response['nombre']?></div>
-                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response['imagen'] ?>" 
-                                        width="20px" title="<?php echo $response['nombre']?>">
-                                         VS  
-                                        <img src="http://localhost/sisfut/webserviceequipos/<?php echo $response2['imagen'] ?>" 
-                                        width="20px" title="<?php echo $response2['nombre']?>">
-                                        <div style="display:none;"><?php echo $response2['nombre']?></div>
-                                      </td>
-                                        
-                                      <?php
-                                      }
-                                    ?>
-
-
-                                    
-                                    
-                                    <td><?php echo $row->fecha ?></td>
-                                    <td><?php echo $row->hora ?></td>
-                                    <td><?php echo $row->estado ?></td>
-                                    <td> 
-                                      <div class="btn-group">
-                                        <div class="row">
-                                          <div class="col-md-4">
-                                            <form action="editar_partido.php" method="post">
-                                              <input type="hidden" value="<?php echo $row->idpartido ?>" name="id">
-                                            <a title="Editar" style="cursor: pointer;">
-                                              <button class="btn"><span class="glyphicon glyphicon-edit"></span></button>
-                                            </a>
-                                            </form>
-                                          </div>
-
-                                          <div class="col-md-4">
-
-                                            <a onclick="eliminarPartido(<?php echo $row->idpartido ?>);"  title="Eliminar" style="cursor: pointer;">
-                                              <button class="btn"><span class="glyphicon glyphicon-remove"></span></button>
-                                            </a>
-                                          </div>
-                                        </div>
-                                      </div>
-                                    </td>
-
-                                  </tr>
-                                  <?php
-                                    }
-                                  ?>
-                                  
-                                </tbody>
-                                
-                              </table>
-                            </div><!-- /.box-body -->
-                          </div><!-- /.box -->
-                        </div>
-                      </div>
-                  </div>
-                  </div><!-- /.tab-pane -->
-                </div><!-- /.tab-content -->
-              </div><!-- nav-tabs-custom -->
-            </div>
-          </div>
-
-        </div>
-
-
-
-        </section><!-- /.content -->
-      </div><!-- /.content-wrapper -->
-
-
-
-
+	
 <script>
 
  function objetoAjax(){
@@ -562,7 +393,7 @@
   }
 
 
-  function registrarpartido(){
+  function modificarpartido(){
     var fecha = document.frmNuevoPartido.fecha.value;
     var hora = document.frmNuevoPartido.hora.value;
     var tipo = document.frmNuevoPartido.tipopartido.value;
@@ -570,6 +401,7 @@
     var arbitro = document.frmNuevoPartido.arbitro.value;
     var equipolocal = document.frmNuevoPartido.equipolocal.value;
     var equipovisita = document.frmNuevoPartido.equipovisita.value;
+    var idpartido = <?php echo $idpartido ?>;
 
     if(document.frmNuevoPartido.precioVIP){
       var precioVIP = document.frmNuevoPartido.precioVIP.value;
@@ -601,7 +433,7 @@
       ajax = objetoAjax();
 
 
-      ajax.open("POST", "partido/ingresar_partido.php", true);
+      ajax.open("POST", "partido/modificar_partido.php", true);
       
      
       ajax.onreadystatechange=function() {
@@ -609,7 +441,7 @@
             var mensajeRespuesta = ajax.responseText;
 
             if(mensajeRespuesta=='BIEN'){
-              window.location.reload(true);
+              window.location='partido.php';
             }else{
                var htmlAlerta = '<div class="alert alert-danger alert-dismissable">' +
                                  '<button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>' +
@@ -626,7 +458,7 @@
       ajax.setRequestHeader("Content-Type","application/x-www-form-urlencoded");
       ajax.send("fecha="+fecha+"&hora="+hora+"&tipo="+tipo+"&seccion="+seccion+"&arbitro="+arbitro+
         "&equipolocal="+equipolocal+"&equipovisita="+equipovisita+"&precioVIP="+precioVIP+"&precioPalco="+precioPalco
-        +"&precioPreferencial="+precioPreferencial+"&precioTribuna="+precioTribuna+"&precioGeneral="+precioGeneral);
+        +"&precioPreferencial="+precioPreferencial+"&precioTribuna="+precioTribuna+"&precioGeneral="+precioGeneral+"&idpartido="+idpartido);
       
 
     }
@@ -635,16 +467,11 @@
    
     
   }
-
-  function eliminarPartido(idpartido){
-    
-  }
   
 </script>
 
 
 
 <?php
-}
   include('pie.php');
 ?>

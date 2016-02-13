@@ -65,10 +65,18 @@ function ListarClubes($dato){
 
 
 	foreach($rows as $row){
-		$cadena.="<option value='".$row->idequipo_pais."'>";
-		$cadena.="<nombre>".$row->nombre_equipo."</nombre>";
-		$cadena.="<pais> - ".$row->nombre."</pais>";
-		$cadena.="</option>";
+		if($row->idequipo_pais==$dato){
+			$cadena.="<option selected value='".$row->idequipo_pais."'>";
+			$cadena.="<nombre>".$row->nombre_equipo."</nombre>";
+			$cadena.="<pais> - ".$row->nombre."</pais>";
+			$cadena.="</option>";
+		}else{
+			$cadena.="<option value='".$row->idequipo_pais."'>";
+			$cadena.="<nombre>".$row->nombre_equipo."</nombre>";
+			$cadena.="<pais> - ".$row->nombre."</pais>";
+			$cadena.="</option>";
+		}
+		
 	}
 
 

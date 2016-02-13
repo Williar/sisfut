@@ -190,6 +190,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
                 <li><a href="asientos.php"><i class="fa fa-eraser"></i> <span>Asientos</span></a></li>
                 <li><a href="politica.php"><i class="fa fa-legal"></i> <span>Política</span></a></li>
                 <li><a href="partido.php"><i class="fa fa-soccer-ball-o"></i> <span>Partido</span></a></li>
+                <li><a href="partido.php"><i class="fa fa-briefcase"></i> <span>Reservas</span></a></li>
 
             <?php
                 }
