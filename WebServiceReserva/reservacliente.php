@@ -24,6 +24,5 @@ function GenerarCR(){
 }
 
 $cd = GenerarCR();
-echo $cd;
 
 ?>

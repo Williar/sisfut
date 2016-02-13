@@ -46,7 +46,7 @@
           </thead>
           <tbody>
             <?php
-            require("Conexion.php");
+            require("conexion.php");
             $con = Conectar();  			
 
 			$sql='SELECT reserva.idreserva, partido.fecha, partido.hora, reserva.codreserva, estadio.localidad, estadio.direccion,

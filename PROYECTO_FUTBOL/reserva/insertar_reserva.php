@@ -84,10 +84,30 @@ for ($i = 0; $i < count($listaSecciones); $i++) {
 	
 if($crearReserva){					
 	
+	require_once('WebServiceReserva/lib/nusoap.php');
+	//header('Content-type: text/html');
+
+	//$client = new nusoap_client('http://localhost/webservice/server_registro.php');
+	$urlWebService = 'http://127.0.0.1/sisfut/WebServiceReserva/servereserva.php';
+	$urlWSDL = $urlWebService . '?wsdl';
+
+	// Creo el objeto soapclient
+	$client = new nusoap_client($urlWSDL, 'wsdl');
+
+
+	//$response=array();
+	$response = $client->call('consulta_reserva',array('' => ''));
+	$response1=json_decode($response,true);
+	echo "<pre>";
+
+	//print_r(json_decode($response));
+
+	$codreserva=$response1['codreserva'];
+
 	
 	$sql = 'INSERT INTO reserva (idpersona, idpartido, precio , estado, codreserva) VALUES (:idpersona, :idpartido, :precio, :estado, :codreserva)';
 	$q = $con->prepare($sql);		
-	$q->execute(array(':idpersona'=>$idpersona, ':idpartido'=>$idpartido, ':precio'=>$precio, ':estado'=>$estado, ':codreserva'=>'1'));
+	$q->execute(array(':idpersona'=>$idpersona, ':idpartido'=>$idpartido, ':precio'=>$precio, ':estado'=>$estado, ':codreserva'=>$codreserva));
 
 	$sql = 'SELECT * FROM reserva ORDER BY idreserva DESC LIMIT 1';
 
