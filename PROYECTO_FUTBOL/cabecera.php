@@ -16,6 +16,8 @@ scratch. This page gets rid of all links and provides the needed markup only.
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
+    <link rel="shortcut icon" href="img/Icons-Land-Metro-Raster-Sport-Soccer-Ball.ico"> 
+
     <title>SisFUT</title>
     <!-- Tell the browser to be responsive to screen width -->
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
@@ -86,7 +88,7 @@ scratch. This page gets rid of all links and provides the needed markup only.
       <header class="main-header">
 
         <!-- Logo -->
-        <a href="index.html" class="logo">
+        <a href="index.php" class="logo">
           <!-- mini logo for sidebar mini 50x50 pixels -->
           <span class="logo-mini"><b>S</b>FT</span>
           <!-- logo for regular state and mobile devices -->
@@ -212,13 +214,116 @@ scratch. This page gets rid of all links and provides the needed markup only.
             <li class="treeview">
               <a href="#"><i class="fa fa-cogs"></i> <span>Ayuda</span> <i class="fa fa-angle-left pull-right"></i></a>
               <ul class="treeview-menu">
-                <li><a href="#"><i class="fa fa-info-circle"></i>Información</a></li>
-                <li><a href="#"><i class="fa fa-wrench"></i>Uso</a></li>
-                <li><a href="#"><i class="fa fa-building-o"></i>Crear Estadio</a></li>
+                <li><a onclick="mostrarInformacion();" style="cursor:pointer;"><i class="fa fa-info-circle"></i>Información</a></li>
+                <li><a onclick="mostrarUso();" style="cursor:pointer;"><i class="fa fa-wrench"></i>Uso</a></li>
+                <li><a onclick="mostrarCrearEstadio();" style="cursor:pointer;"><i class="fa fa-building-o"></i>Crear Estadio</a></li>
               </ul>
             </li>
           </ul><!-- /.sidebar-menu -->
+
+
+
         </section>
         <!-- /.sidebar -->
       </aside>
+
+      <div class="example-modal" >
+        <div class="modal modal-info" id="modalInformacion">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="col-md-12">
+               <div class="box box-success  box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title"><i class="fa fa-info-circle"></i> Información</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                   <div class="row">
+                    <div class="col-md-12">
+                      <p align="justify">Sisfut te ofrece la opción de reservar asientos para los partidos de los distintos estadios.
+                      Puedes explorar por la página para ver los partidos.</p>
+                      <p align="justify">Además ofrece una administración completa para los Estadios.</p>
+                    </div>
+                  </div>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+             
+            </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+      </div>
+
+      <div class="example-modal" >
+        <div class="modal modal-info" id="modalUso">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="col-md-12">
+               <div class="box box-success  box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title"><i class="fa fa-wrench"></i> Uso</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                   <div class="row">
+                    <div class="col-md-12">
+                      <p align="justify">Para poder reservar un asiento tienes que estar registrado en nuestro sistema. Accede a la sección Crear Cuenta para registrarte o has clic <a href="cuenta.php">aquí.</a></p>
+                      <p align="justify"></p>
+                    </div>
+                  </div>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+             
+            </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+      </div>
+
+      <div class="example-modal" >
+        <div class="modal modal-info" id="modalCrearEstadio">
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="col-md-12">
+               <div class="box box-success  box-solid">
+                <div class="box-header with-border">
+                  <h3 class="box-title"><i class="fa fa-building-o"></i> ¿Cómo crear un Estadio?</h3>
+                  <div class="box-tools pull-right">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">x</span></button>
+                  </div><!-- /.box-tools -->
+                </div><!-- /.box-header -->
+                <div class="box-body">
+                   <div class="row">
+                    <div class="col-md-12">
+                      <p align="justify">Para poder crear un nuevo estadio, dirigete a la sección Crear Cuenta-Estadio, o accede desde <a href="cuenta.php">aquí.</a></p>
+                      <p align="justify">NOTA: Para crear la cuenta necesitas un código de validación. Esta Cuenta es pagada. Ponte en contacto con nosotros para más información y adquirir el código.</p>
+                      <p align="justify">Contacto: 0981747155 - 2968287 (Sisfut)</p>
+                    </div>
+                    </div>
+                  </div>
+                </div><!-- /.box-body -->
+              </div><!-- /.box -->
+             
+            </div>
+            </div><!-- /.modal-content -->
+          </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+      </div>
+      
+
+      <script type="text/javascript">
+          function mostrarInformacion(){
+            $('#modalInformacion').modal('show');
+          }
+          function mostrarUso(){
+            $('#modalUso').modal('show');
+          }
+          function mostrarCrearEstadio(){
+            $('#modalCrearEstadio').modal('show');
+          }
+      </script>
       
